@@ -23,6 +23,7 @@ import Work from './work.js'
  */
 export default function Resume(resume, { css, js } = {}) {
   const iconSet = resume.meta?.themeOptions?.icons?.toLowerCase?.() === 'fontawesome' ? 'fontawesome' : 'feather'
+  const projectsByType = Boolean(resume.meta?.themeOptions?.projectsByType)
   return html`<!doctype html>
     <html lang="en" style="${colors(resume.meta)}">
       <head>
@@ -41,9 +42,10 @@ export default function Resume(resume, { css, js } = {}) {
       </head>
       <body>
         ${Header(resume.basics, { iconSet })} ${Work(resume.work)} ${Volunteer(resume.volunteer)}
-        ${Education(resume.education)} ${Projects(resume.projects)} ${Awards(resume.awards)}
-        ${Certificates(resume.certificates)} ${Publications(resume.publications)} ${Skills(resume.skills)}
-        ${Languages(resume.languages)} ${Interests(resume.interests)} ${References(resume.references)}
+        ${Education(resume.education)} ${Projects(resume.projects, { groupByType: projectsByType })}
+        ${Awards(resume.awards)} ${Certificates(resume.certificates)} ${Publications(resume.publications)}
+        ${Skills(resume.skills)} ${Languages(resume.languages)} ${Interests(resume.interests)}
+        ${References(resume.references)}
       </body>
     </html>`
 }
